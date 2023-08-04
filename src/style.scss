@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+// ::-webkit-scrollbar-track {
+//   background: transparent;
+// }
+
+// ::-webkit-scrollbar-button {
+//   display: none;
+// }
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.main {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: space-between;
+  background-image: url('https://img.freepik.com/fotos-gratis/ceu-azul-fantastica_1203-1929.jpg?w=2000');
+  background-size: cover;
+  background-position: center;
+
+  > .main-infos-container {
+    flex: 2;
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+    padding: 50px;
+    > .main-infos {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      > .temperature {
+        font-family: 'Jost';
+      }
+    }
+  }
+
+  // .weather-status-container {
+  //   // display: grid;
+  //   // grid-template-columns: 1fr 2fr 1fr; /* Definindo as 3 colunas */
+  //   // grid-template-rows: auto; /* Altura automática para cada item */
+  // }
+
+  > .sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    gap: 30px;
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    -moz-backdrop-filter: blur(18px);
+    -ms-backdrop-filter: blur(18px);
+    background: rgba(50, 50, 50, 0.5);
+    width: 100%;
+    box-shadow: 0 -5px 16px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    > .form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      .form-top {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        > .form-input {
+          margin: 0px 50px;
+          width: 100%;
+          height: 40px;
+          background-color: rgba(0, 0, 0, 0);
+          border-top: 0px;
+          border-left: 0px;
+          border-right: 0px;
+          border-bottom: solid rgba(255, 255, 255, 0.4) 1px;
+          color: #ffffff66;
+          &::placeholder {
+            color: #ffffff66;
+          }
+          &:focus {
+            outline: none;
+            border-top: 0px;
+            border-left: 0px;
+            border-right: 0px;
+            border-bottom: solid rgba(228, 14, 14, 0.4) 1px; //corrigir cor dependendo do tema
+          }
+        }
+
+        > .submit-button {
+          color: #000;
+          border: none;
+          min-width: 80px;
+          min-height: 80px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-size: 25px;
+          cursor: pointer;
+
+          > .submit-icon {
+            width: 20px;
+          }
+        }
+      }
+      > .searchCities {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    > .weather-info {
+      margin: 0 50px;
+      padding: 55px 0px;
+      border-top: solid rgba(255, 255, 255, 0.3) 1px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    > .next-days-info {
+      margin: 0px 50px;
+      .day-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 100px;
+        .weather-status-container {
+          width: 60px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}

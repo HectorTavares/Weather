@@ -1,0 +1,6 @@
+export { dateFormat } from './dateFormat'
+export { getCityName } from './getCityName'
+export { getWeatherStatus } from './getWeatherStatus'
+export { getMonthAndDay } from './getMonthAndDay'
+export { capitalizeWords } from './capitalizeWords'
+// export { getCity, updateCity, getCitiesList, updateCitiesList } from './citiesLocalStorage'
