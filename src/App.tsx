@@ -16,9 +16,10 @@ export default function App() {
 
   // const [isLoading, setIsLoading] = useState<boolean>(false)  utilizar quando criar loader
 
-  const fetchData = async () => {
+  const fetchData = async (city: string) => {
     try {
       const weatherData = await fetchAndCacheWeatherData(city)
+      document.title = weatherData.currentWeatherData.location
       setCurrentWeatherData(weatherData.currentWeatherData)
       setNextDaysWeatherData(weatherData.nextDaysWeatherData)
     } catch (error) {
@@ -27,7 +28,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    fetchData()
+    fetchData(city)
   }, [])
 
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -39,13 +40,14 @@ export default function App() {
     //TODO: testar se esta 100% e estilizar (esta fazendo a chamada quando apago o input)
     updateCitiesList(currentWeatherData!.location, city)
     updateCity(city)
-    fetchData()
+    fetchData(city)
   }
 
   const handleOnSelectCity = (selectedCity: string): void => {
     updateCitiesList(city, selectedCity)
     updateCity(selectedCity)
     setCity(capitalizeWords(selectedCity))
+    fetchData(capitalizeWords(selectedCity))
   }
 
   const renderMainInfos = () => {
@@ -56,7 +58,7 @@ export default function App() {
         </div>
         <div className='location-date-container'>
           <p className='location'>{currentWeatherData?.location}</p>
-          <p className='date'>{currentWeatherData?.date}</p>
+          <time className='date'>{currentWeatherData?.date}</time>
         </div>
         <div className='weather-status-container'>
           {currentWeatherData ? (
@@ -78,7 +80,7 @@ export default function App() {
   return (
     <main className='main'>
       <div className='main-infos-container'>{renderMainInfos()}</div>
-      <div className='sidebar'>
+      <aside className='sidebar'>
         <form className='form' onSubmit={handleOnSubmit}>
           <div className='form-top'>
             <input
@@ -103,7 +105,7 @@ export default function App() {
             })}
           </div>
         </form>
-        <div className='weather-info'>
+        <section className='weather-info'>
           <h2>Weather Details</h2>
           <div className='weather-info-line'>
             <p>Cloudy:</p> <p>{currentWeatherData?.cloudy}% </p>
@@ -117,10 +119,10 @@ export default function App() {
           <div>
             <p>Wind Chill: </p> <p>{currentWeatherData?.temperatureApparent}° </p>
           </div>
-        </div>
+        </section>
         {/* <> */}
 
-        <div className='next-days-info'>
+        <section className='next-days-info'>
           <h2>Next Days</h2>
           {nextDaysWeatherData.map((dayWeatherData) => {
             return (
@@ -131,7 +133,8 @@ export default function App() {
                   ${dayWeatherData.temperatureMax}° - 
                   ${dayWeatherData.temperatureMin}°`}
                 </p>
-                <div className='weather-status-container'>
+                {/* TODO:usar figure e figCaption */}
+                <figure className='weather-status-container'>
                   {dayWeatherData ? (
                     <img
                       className='weather-status-icon'
@@ -142,14 +145,16 @@ export default function App() {
                     />
                   ) : null}
 
-                  <p className='weather-status'>{dayWeatherData?.weatherStatus.description}</p>
-                </div>
+                  <figcaption className='weather-status'>
+                    {dayWeatherData?.weatherStatus.description}
+                  </figcaption>
+                </figure>
               </div>
             )
           })}
-        </div>
+        </section>
         {/* </> */}
-      </div>
+      </aside>
     </main>
   )
 }

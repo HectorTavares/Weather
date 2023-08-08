@@ -1,15 +1,12 @@
 import axios from 'axios'
 import { getCityName, dateFormat, getWeatherStatus, getMonthAndDay } from '@/utils'
 
-import { DEFAULT_CITY } from '@/constants'
+import { DEFAULT_CITY, BASE_API_URL, API_KEY } from '@/constants'
 import { CurrentWeatherData, DayWeatherData, WeatherData } from '@/types'
 
 export function useWheaterApi() {
-  const API_KEY = '5vzZgGgQxgPrkSInz5rw6SYgLaxQZHcJ'
-  const BASE_URL = 'https://api.tomorrow.io/v4/weather/'
-
   async function fetchCurrentWeatherData(city = DEFAULT_CITY): Promise<CurrentWeatherData> {
-    const url = `${BASE_URL}realtime?location=${city}&apikey=${API_KEY}`
+    const url = `${BASE_API_URL}realtime?location=${city}&apikey=${API_KEY}`
 
     const response = await axios.get(url)
     const data = response.data
@@ -29,7 +26,7 @@ export function useWheaterApi() {
   }
 
   async function fetchNextDaysWeather(city = DEFAULT_CITY): Promise<DayWeatherData[]> {
-    const url = `${BASE_URL}forecast?location=${city}&timesteps=1d&apikey=${API_KEY}`
+    const url = `${BASE_API_URL}forecast?location=${city}&timesteps=1d&apikey=${API_KEY}`
 
     const response = await axios.get(url)
     const data = response.data
@@ -51,8 +48,14 @@ export function useWheaterApi() {
     const cachedResponse = await cache.match(city)
 
     if (cachedResponse) {
-      const data = await cachedResponse.json()
-      return data as WeatherData
+      const expirationHeader = cachedResponse.headers.get('Expires')
+      const isCachedResponseValid = new Date(expirationHeader!).getTime() > Date.now()
+      if (isCachedResponseValid) {
+        const data = await cachedResponse.json()
+        return data as WeatherData
+      } else {
+        await cache.delete(city)
+      }
     }
 
     const currentWeatherPromise = fetchCurrentWeatherData(city)
