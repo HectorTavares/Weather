@@ -52,7 +52,7 @@ export default function App() {
 
   const renderMainInfos = () => {
     return (
-      <div className='main-infos'>
+      <section className='main-infos'>
         <div className='temperature-container'>
           <h2 className='temperature'>{currentWeatherData?.temperature} °</h2>
         </div>
@@ -60,7 +60,7 @@ export default function App() {
           <p className='location'>{currentWeatherData?.location}</p>
           <time className='date'>{currentWeatherData?.date}</time>
         </div>
-        <div className='weather-status-container'>
+        <figure className='weather-status-container'>
           {currentWeatherData ? (
             <img
               className='weather-status-icon'
@@ -71,9 +71,11 @@ export default function App() {
             />
           ) : null}
 
-          <p className='weather-status'>{currentWeatherData?.weatherStatus.description}</p>
-        </div>
-      </div>
+          <figcaption className='weather-status'>
+            {currentWeatherData?.weatherStatus.description}
+          </figcaption>
+        </figure>
+      </section>
     )
   }
 
@@ -98,7 +100,11 @@ export default function App() {
           <div className='searchCities'>
             {citiesOptions.map((searchCity) => {
               return (
-                <button key={searchCity} onClick={() => handleOnSelectCity(searchCity)}>
+                <button
+                  className='searchCity-option '
+                  key={searchCity}
+                  onClick={() => handleOnSelectCity(searchCity)}
+                >
                   {searchCity}
                 </button>
               )
@@ -110,13 +116,13 @@ export default function App() {
           <div className='weather-info-line'>
             <p>Cloudy:</p> <p>{currentWeatherData?.cloudy}% </p>
           </div>
-          <div>
+          <div className='weather-info-line'>
             <p>Humidity:</p> <p> {currentWeatherData?.humidity}% </p>
           </div>
-          <div>
+          <div className='weather-info-line'>
             <p>Wind: </p> <p>{currentWeatherData?.windSpeed} m/s </p>
           </div>
-          <div>
+          <div className='weather-info-line'>
             <p>Wind Chill: </p> <p>{currentWeatherData?.temperatureApparent}° </p>
           </div>
         </section>

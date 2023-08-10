@@ -24,7 +24,7 @@
   width: 100vw;
   align-items: center;
   justify-content: space-between;
-  background-image: url('/bg_image.jpg');
+  background-image: url('/clear.jpeg');
   background-size: cover;
   background-position: center;
 
@@ -39,19 +39,19 @@
       gap: 10px;
       justify-content: center;
       align-items: center;
+      color: #ffffff;
       > .temperature {
         font-family: 'Jost';
+      }
+      > .weather-status-container {
+        width: 60px;
+        text-align: center;
       }
     }
   }
 
-  // .weather-status-container {
-  //   // display: grid;
-  //   // grid-template-columns: 1fr 2fr 1fr; /* Definindo as 3 colunas */
-  //   // grid-template-rows: auto; /* Altura automática para cada item */
-  // }
-
   > .sidebar {
+    min-width: 360px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -90,12 +90,14 @@
           margin: 0px 50px;
           width: 100%;
           height: 40px;
+          font-size: 18px;
           background-color: rgba(0, 0, 0, 0);
           border-top: 0px;
           border-left: 0px;
           border-right: 0px;
           border-bottom: solid rgba(255, 255, 255, 0.4) 1px;
           color: #ffffff66;
+          transition: border-bottom-color ease-in-out 100ms;
           &::placeholder {
             color: #ffffff66;
           }
@@ -127,14 +129,34 @@
       > .searchCities {
         display: flex;
         flex-direction: column;
+        margin: 0px 50px;
+        padding: 30px 0px;
+        gap: 30px;
+        > .searchCity-option {
+          all: unset;
+
+          font-size: 18px;
+          color: #ffffff66;
+          &:hover {
+            cursor: pointer;
+            color: rgb(255, 255, 255);
+          }
+        }
       }
     }
 
     > .weather-info {
+      display: flex;
+      flex-direction: column;
       margin: 0 50px;
       padding: 55px 0px;
       border-top: solid rgba(255, 255, 255, 0.3) 1px;
       color: rgba(255, 255, 255, 0.4);
+      gap: 30px;
+      > .weather-info-line {
+        display: flex;
+        justify-content: space-between;
+      }
     }
 
     > .next-days-info {
