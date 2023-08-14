@@ -5,17 +5,40 @@
   font-family: 'Lato', sans-serif;
 }
 
-// ::-webkit-scrollbar-track {
-//   background: transparent;
-// }
-
-// ::-webkit-scrollbar-button {
-//   display: none;
-// }
-
 ::-webkit-scrollbar {
   width: 0;
   height: 0;
+}
+//TODO:Ver uma a uma e configurar cores e posições das imagens
+.main {
+  transition: background-image 0.5s ease-in-out;
+  &.clear {
+    background-image: url('/clear.jpeg');
+  }
+  &.clear-cloudy {
+    background-image: url('/clear-cloudy.jpg');
+  }
+  &.clouds {
+    background-image: url('/clouds.jpeg');
+  }
+  &.snow {
+    background-image: url('/snow.jpg');
+  }
+  &.heavy-snow {
+    background-image: url('/heavy-snow.jpg');
+  }
+  &.ice {
+    background-image: url('/ice.jpg');
+  }
+  &.thunderstorm {
+    background-image: url('/thunderstorm.jpg');
+  }
+  &.rain {
+    background-image: url('/rain.jpg');
+  }
+  &.fog {
+    background-image: url('/fog.jpg');
+  }
 }
 
 .main {
@@ -34,7 +57,7 @@
     align-items: flex-end;
     height: 100%;
     padding: 50px;
-    > .main-infos {
+    .main-infos {
       display: flex;
       gap: 10px;
       justify-content: center;
@@ -97,15 +120,13 @@
           border-right: 0px;
           border-bottom: solid rgba(255, 255, 255, 0.4) 1px;
           color: #ffffff66;
-          transition: border-bottom-color ease-in-out 100ms;
+          transition: border-bottom-color 250ms ease-in-out;
           &::placeholder {
             color: #ffffff66;
           }
           &:focus {
             outline: none;
-            border-top: 0px;
-            border-left: 0px;
-            border-right: 0px;
+
             border-bottom: solid rgba(228, 14, 14, 0.4) 1px; //corrigir cor dependendo do tema
           }
         }
@@ -132,7 +153,7 @@
         margin: 0px 50px;
         padding: 30px 0px;
         gap: 30px;
-        > .searchCity-option {
+        .searchCity-option {
           all: unset;
 
           font-size: 18px;
@@ -153,19 +174,24 @@
       border-top: solid rgba(255, 255, 255, 0.3) 1px;
       color: rgba(255, 255, 255, 0.4);
       gap: 30px;
-      > .weather-info-line {
+      .weather-info-line {
         display: flex;
         justify-content: space-between;
+        > .value {
+          color: white;
+        }
       }
     }
 
-    > .next-days-info {
+    .next-days-info {
       margin: 0px 50px;
+      padding: 30px 0px;
       .day-info {
         display: flex;
         align-items: center;
         justify-content: space-between;
         height: 100px;
+        width: 100%;
         .weather-status-container {
           width: 60px;
           text-align: center;

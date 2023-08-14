@@ -3,19 +3,19 @@ import { DEFAULT_CITIES_OPTIONS, DEFAULT_CITY } from '@/constants'
 export function useCities() {
   function updateCitiesList(lastCity: string, newCity: string): void {
     const updatedCities = [...getCitiesList()]
+
     updatedCities.unshift(lastCity)
+    updatedCities.unshift(newCity)
 
-    if (updatedCities.includes(newCity)) {
-      localStorage.setItem(
-        'cities',
-        JSON.stringify(updatedCities.filter((city) => city !== newCity))
-      )
-      return
-    }
+    const citiesFiltered = updatedCities.filter(
+      (value, index, array) => array.indexOf(value) === index
+    )
 
-    updatedCities.pop()
+    const indexToRemove = citiesFiltered.findIndex((city) => city === newCity)
 
-    localStorage.setItem('cities', JSON.stringify(updatedCities))
+    citiesFiltered.splice(indexToRemove, 1)
+
+    localStorage.setItem('cities', JSON.stringify(citiesFiltered.slice(0, 4)))
   }
 
   function getCitiesList(): string[] {
