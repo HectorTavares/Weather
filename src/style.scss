@@ -1,7 +1,5 @@
 :root {
   --primary-color: #a9cee1;
-  //TODO: pensar sobre essa abordagem, pois ainda vou ter que fazer
-  // mudanças no background baseado no status anyway
 }
 * {
   box-sizing: border-box;
@@ -14,42 +12,53 @@
   width: 0;
   height: 0;
 }
-//TODO:Ver uma a uma e configurar cores e posições das imagens
+
 .main {
   transition: background-image 0.5s ease-in-out;
   &.clear {
     background-image: url('/clear.jpeg');
-    // $primary-color: #a9cee1;
   }
   &.clear-cloudy {
     background-image: url('/clear-cloudy.jpg');
-    // $primary-color: #86c5e4;
-    filter: brightness(80%);
+
+    filter: contrast(120%);
+    background-position: bottom;
+    > .main-infos-container {
+      .main-infos {
+        backdrop-filter: blur(1.5px);
+      }
+    }
   }
   &.clouds {
     background-image: url('/clouds.jpeg');
     background-position: inherit;
-
-    // $primary-color: #d66c05;
   }
   &.snow {
     background-image: url('/snow.jpg');
+    filter: contrast(120%);
+    > .main-infos-container {
+      backdrop-filter: blur(1.5px);
+    }
   }
   &.heavy-snow {
     background-image: url('/heavy-snow.jpg');
   }
   &.ice {
     background-image: url('/ice.jpg');
+    background-position: bottom;
   }
   &.thunderstorm {
     background-image: url('/thunderstorm.jpg');
+    > .main-infos-container .main-infos > .weather-status-container {
+      width: 120px;
+    }
   }
   &.rain {
     background-image: url('/rain.jpg');
-    // $primary-color: #829f9a;
   }
   &.fog {
     background-image: url('/fog.jpg');
+    background-position: left;
   }
 }
 
@@ -66,54 +75,84 @@
   > .main-infos-container {
     flex: 2;
     display: flex;
-    align-items: flex-end;
+    justify-content: space-between;
     height: 100%;
-    padding: 50px 50px 70px 60px;
+    padding: 50px 50px 85px 60px;
+    text-shadow: black 0.1em 0.1em 0.2em;
+    flex-direction: column;
+    * {
+      font-family: 'Jost', sans-serif;
+      font-weight: bold;
+    }
+
+    .design-setting-container {
+      display: flex;
+      justify-content: space-between;
+      .design {
+        text-decoration: none;
+        color: white;
+      }
+      > .settings-button {
+        color: #000;
+        border: none;
+        min-width: 80px;
+        min-height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 25px;
+        cursor: pointer;
+        background-color: #00000000;
+        // background-color: var(--primary-color);
+        transition: background-color 250ms ease-in-out;
+
+        // > .settings-icon {
+        //   width: 20px;
+        // }
+      }
+    }
 
     .main-infos {
       display: flex;
       gap: 20px;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       color: #ffffff;
-      // background-color: #03030369;
-      backdrop-filter: blur(1.5px);
+      * {
+        font-family: 'Jost', sans-serif;
+        font-weight: bold;
+      }
 
       > .location-date-container {
         font-size: 2rem;
-        font-family: 'Jost';
-        > .location {
-          font-size: 4rem;
-          b {
-            font-family: 'Jost';
 
-            // text-shadow: -1px -1px 0px #000000, -1px 1px 0px #000000, 1px -1px 0px #000000,
-            //   1px 0px 0px #000000;
-          }
+        .location {
+          font-size: 6rem;
+          line-height: 1;
+        }
+        .date {
+          font-size: 1.2rem;
         }
       }
       .temperature {
-        font-family: 'Jost';
         font-size: 9rem;
       }
       > .weather-status-container {
         width: 80px;
         text-align: center;
         font-size: 1.3rem;
-        font-family: 'Jost';
       }
     }
   }
 
   > .sidebar {
+    $sidebar-margin: 0px 50px;
+    $sidebar-padding: 55px 0px;
     min-width: 360px;
     flex: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
-
-    gap: 30px;
-
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     -moz-backdrop-filter: blur(18px);
@@ -125,8 +164,6 @@
     font-size: 18px;
     font-weight: 300;
     color: rgba(255, 255, 255, 0.9);
-    display: flex;
-    flex-direction: column;
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -142,7 +179,7 @@
         align-items: flex-end;
 
         > .form-input {
-          margin: 0px 50px;
+          margin: $sidebar-margin;
           width: 100%;
           height: 40px;
           font-size: 18px;
@@ -153,6 +190,7 @@
           border-bottom: solid rgba(255, 255, 255, 0.4) 1px;
           color: #ffffff66;
           transition: border-bottom-color 250ms ease-in-out;
+
           &::placeholder {
             color: #ffffff66;
           }
@@ -184,8 +222,8 @@
       > .searchCities {
         display: flex;
         flex-direction: column;
-        margin: 0px 50px;
-        padding: 30px 0px;
+        margin: $sidebar-margin;
+        padding: $sidebar-padding;
         gap: 30px;
         .searchCity-option {
           all: unset;
@@ -203,8 +241,8 @@
     > .weather-info {
       display: flex;
       flex-direction: column;
-      margin: 0 50px;
-      padding: 55px 0px;
+      margin: $sidebar-margin;
+      padding: $sidebar-padding;
       border-top: solid rgba(255, 255, 255, 0.3) 1px;
       color: rgba(255, 255, 255, 0.4);
       gap: 30px;
@@ -222,8 +260,8 @@
 
     .next-days-info {
       border-top: solid rgba(255, 255, 255, 0.3) 1px;
-      margin: 0px 50px;
-      padding: 30px 0px;
+      margin: $sidebar-margin;
+      padding: $sidebar-padding;
       .day-info {
         display: flex;
         align-items: center;

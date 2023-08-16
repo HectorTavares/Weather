@@ -63,11 +63,8 @@ export default function App() {
           <h2 className='temperature'>{currentWeatherData?.temperature}°</h2>
         </div>
         <div className='location-date-container'>
-          <p className='location'>
-            {' '}
-            <b>{currentWeatherData?.location}</b>
-          </p>
-          <time className='date'>{currentWeatherData?.date}</time>
+          <p className='location'> {currentWeatherData?.location}</p>
+          <p className='date'>{currentWeatherData?.date}</p>
         </div>
         <figure className='weather-status-container'>
           {currentWeatherData ? (
@@ -96,7 +93,25 @@ export default function App() {
         currentWeatherData?.weatherStatus.description ? currentMainClassByStatus : ''
       } `}
     >
-      <div className='main-infos-container'>{renderMainInfos()}</div>
+      <div className='main-infos-container'>
+        <div className='design-setting-container'>
+          <a className='design' target='_blank' href='https://dribbble.com/thearthurk'>
+            design by Arthur K
+          </a>
+          <button onClick={() => console.log('Abriu as config')} className='settings-button'>
+            <img
+              className='settings-icon'
+              src='/settings.svg'
+              alt='settings button'
+              width={50}
+              height={50}
+              loading='lazy'
+              decoding='async'
+            />
+          </button>
+        </div>
+        {renderMainInfos()}
+      </div>
       <aside className='sidebar'>
         <form className='form' onSubmit={handleOnSubmit}>
           <div className='form-top'>
