@@ -1,3 +1,8 @@
+:root {
+  --primary-color: #a9cee1;
+  //TODO: pensar sobre essa abordagem, pois ainda vou ter que fazer
+  // mudanças no background baseado no status anyway
+}
 * {
   box-sizing: border-box;
   padding: 0;
@@ -14,12 +19,18 @@
   transition: background-image 0.5s ease-in-out;
   &.clear {
     background-image: url('/clear.jpeg');
+    // $primary-color: #a9cee1;
   }
   &.clear-cloudy {
     background-image: url('/clear-cloudy.jpg');
+    // $primary-color: #86c5e4;
+    filter: brightness(80%);
   }
   &.clouds {
     background-image: url('/clouds.jpeg');
+    background-position: inherit;
+
+    // $primary-color: #d66c05;
   }
   &.snow {
     background-image: url('/snow.jpg');
@@ -35,6 +46,7 @@
   }
   &.rain {
     background-image: url('/rain.jpg');
+    // $primary-color: #829f9a;
   }
   &.fog {
     background-image: url('/fog.jpg');
@@ -56,19 +68,39 @@
     display: flex;
     align-items: flex-end;
     height: 100%;
-    padding: 50px;
+    padding: 50px 50px 70px 60px;
+
     .main-infos {
       display: flex;
-      gap: 10px;
+      gap: 20px;
       justify-content: center;
       align-items: center;
       color: #ffffff;
-      > .temperature {
+      // background-color: #03030369;
+      backdrop-filter: blur(1.5px);
+
+      > .location-date-container {
+        font-size: 2rem;
         font-family: 'Jost';
+        > .location {
+          font-size: 4rem;
+          b {
+            font-family: 'Jost';
+
+            // text-shadow: -1px -1px 0px #000000, -1px 1px 0px #000000, 1px -1px 0px #000000,
+            //   1px 0px 0px #000000;
+          }
+        }
+      }
+      .temperature {
+        font-family: 'Jost';
+        font-size: 9rem;
       }
       > .weather-status-container {
-        width: 60px;
+        width: 80px;
         text-align: center;
+        font-size: 1.3rem;
+        font-family: 'Jost';
       }
     }
   }
@@ -127,7 +159,7 @@
           &:focus {
             outline: none;
 
-            border-bottom: solid rgba(228, 14, 14, 0.4) 1px; //corrigir cor dependendo do tema
+            border-bottom: solid var(--primary-color) 1px;
           }
         }
 
@@ -141,6 +173,8 @@
           align-items: center;
           font-size: 25px;
           cursor: pointer;
+          background-color: var(--primary-color);
+          transition: background-color 250ms ease-in-out;
 
           > .submit-icon {
             width: 20px;
@@ -174,6 +208,9 @@
       border-top: solid rgba(255, 255, 255, 0.3) 1px;
       color: rgba(255, 255, 255, 0.4);
       gap: 30px;
+      h2 {
+        color: white;
+      }
       .weather-info-line {
         display: flex;
         justify-content: space-between;
@@ -184,6 +221,7 @@
     }
 
     .next-days-info {
+      border-top: solid rgba(255, 255, 255, 0.3) 1px;
       margin: 0px 50px;
       padding: 30px 0px;
       .day-info {

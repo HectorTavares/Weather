@@ -1,5 +1,12 @@
 import axios from 'axios'
-import { getCityName, dateFormat, getWeatherStatus, getMonthAndDay } from '@/utils'
+import {
+  getCityName,
+  dateFormat,
+  getWeatherStatus,
+  getMonthAndDay,
+  setMainColorByWeatherClass,
+  getClassByWeatherStatus,
+} from '@/utils'
 
 import { DEFAULT_CITY, BASE_API_URL, API_KEY } from '@/constants'
 import { CurrentWeatherData, DayWeatherData, WeatherData } from '@/types'
@@ -16,7 +23,8 @@ export function useWheaterApi() {
       humidity: data.data.values.humidity,
       windSpeed: data.data.values.windSpeed,
       temperatureApparent: Math.round(data.data.values.temperatureApparent),
-      weatherStatus: getWeatherStatus(data.data.values.weatherCode),
+      // weatherStatus: getWeatherStatus(data.data.values.weatherCode),
+      weatherStatus: getWeatherStatus(1101),
       cloudy: data.data.values.cloudCover,
       date: dateFormat(data.data.time),
       location: getCityName(data.location.name),
@@ -52,6 +60,12 @@ export function useWheaterApi() {
       const isCachedResponseValid = new Date(expirationHeader!).getTime() > Date.now()
       if (isCachedResponseValid) {
         const data = await cachedResponse.json()
+        const weatherClass = getClassByWeatherStatus(
+          data.currentWeatherData.weatherStatus.description
+        )
+
+        setMainColorByWeatherClass(weatherClass)
+
         return data as WeatherData
       } else {
         await cache.delete(city)
@@ -70,6 +84,11 @@ export function useWheaterApi() {
       currentWeatherData: currentWheater,
       nextDaysWeatherData: nextDaysWheater,
     }
+    const weatherClass = getClassByWeatherStatus(
+      weatherData.currentWeatherData.weatherStatus.description
+    )
+
+    setMainColorByWeatherClass(weatherClass)
 
     const TEN_MINUTES = 600000
 

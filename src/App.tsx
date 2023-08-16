@@ -60,10 +60,13 @@ export default function App() {
     return (
       <section className={`main-infos`}>
         <div className='temperature-container'>
-          <h2 className='temperature'>{currentWeatherData?.temperature} °</h2>
+          <h2 className='temperature'>{currentWeatherData?.temperature}°</h2>
         </div>
         <div className='location-date-container'>
-          <p className='location'>{currentWeatherData?.location}</p>
+          <p className='location'>
+            {' '}
+            <b>{currentWeatherData?.location}</b>
+          </p>
           <time className='date'>{currentWeatherData?.date}</time>
         </div>
         <figure className='weather-status-container'>
@@ -72,8 +75,10 @@ export default function App() {
               className='weather-status-icon'
               src={currentWeatherData.weatherStatus.icon}
               alt={`${currentWeatherData.weatherStatus.description} icon`}
-              width={50}
-              height={50}
+              width={75}
+              height={75}
+              loading='lazy'
+              decoding='async'
             />
           ) : null}
 
@@ -109,6 +114,8 @@ export default function App() {
                 alt='search button'
                 width={50}
                 height={50}
+                loading='lazy'
+                decoding='async'
               />
             </button>
           </div>
