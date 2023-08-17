@@ -24,7 +24,6 @@ export function useWheaterApi() {
       windSpeed: data.data.values.windSpeed,
       temperatureApparent: Math.round(data.data.values.temperatureApparent),
       weatherStatus: getWeatherStatus(data.data.values.weatherCode),
-      // weatherStatus: getWeatherStatus(1000),
       cloudy: data.data.values.cloudCover,
       date: dateFormat(data.data.time),
       location: getCityName(data.location.name),
