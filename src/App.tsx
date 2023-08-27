@@ -3,8 +3,14 @@ import React, { useEffect, useState } from 'react'
 import { useWheaterApi, useCities } from '@/hooks'
 import { CurrentWeatherData, DayWeatherData } from '@/types'
 import { capitalizeWords } from '@/utils'
-import { DayResumeInfo } from '@/components'
+import { DayResumeInfo, Modal } from '@/components'
 import { getClassByWeatherStatus } from './utils/getClassByWeatherStatus'
+
+const avaliableLanguages = [
+  { name: 'en_us', flag: './usa.png' },
+  { name: 'pt_br', flag: './brazil.png' },
+  { name: 'es_es', flag: './spain.png' },
+]
 
 export default function App() {
   const { fetchAndCacheWeatherData } = useWheaterApi()
@@ -56,6 +62,16 @@ export default function App() {
     fetchData(capitalizeWords(selectedCity))
   }
 
+  const [modalOpen, setModalOpen] = useState(false)
+
+  const openModal = () => {
+    setModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setModalOpen(false)
+  }
+
   const renderMainInfos = () => {
     return (
       <section className={`main-infos`}>
@@ -93,12 +109,29 @@ export default function App() {
         currentWeatherData?.weatherStatus.description ? currentMainClassByStatus : ''
       } `}
     >
+      <Modal isOpen={modalOpen} onClose={closeModal}>
+        <div style={{ width: '320px', height: '500px' }}>
+          <h2>Settings</h2>
+
+          <div>
+            <label>Language</label>
+            {avaliableLanguages.map((language) => (
+              <button>
+                <figure>
+                  <img className='flag' src={language.flag} alt={language.name} />
+                  <figcaption>{language.name}</figcaption>
+                </figure>
+              </button>
+            ))}
+          </div>
+        </div>
+      </Modal>
       <div className='main-infos-container'>
         <div className='design-setting-container'>
           <a className='design' target='_blank' href='https://dribbble.com/thearthurk'>
             design by Arthur K
           </a>
-          <button onClick={() => console.log('Abriu as config')} className='settings-button'>
+          <button onClick={openModal} className='settings-button'>
             <img
               className='settings-icon'
               src='/settings.svg'
