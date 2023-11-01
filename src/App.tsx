@@ -5,6 +5,7 @@ import { CurrentWeatherData, DayWeatherData } from '@/types'
 import { capitalizeWords } from '@/utils'
 import { DayResumeInfo } from '@/components'
 import { getClassByWeatherStatus } from './utils/getClassByWeatherStatus'
+import { ERROR_MESSAGES } from '@/constants'
 
 export default function App() {
   const { fetchAndCacheWeatherData } = useWheaterApi()
@@ -12,24 +13,35 @@ export default function App() {
 
   const [currentWeatherData, setCurrentWeatherData] = useState<CurrentWeatherData | null>()
   const [nextDaysWeatherData, setNextDaysWeatherData] = useState<DayWeatherData[]>([])
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [city, setCity] = useState<string>(getCity())
   const citiesOptions = getCitiesList()
   const currentMainClassByStatus = getClassByWeatherStatus(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-asserted-optional-chain
     currentWeatherData?.weatherStatus.description!
   )
-
-  //TODO: utilizar quando criar loader
-  // const [isLoading, setIsLoading] = useState<boolean>(false)
+  console.log(errorMessage)
 
   const fetchData = async (city: string) => {
     try {
+      setIsLoading(true)
       const weatherData = await fetchAndCacheWeatherData(city)
       document.title = weatherData.currentWeatherData.location
 
       setCurrentWeatherData(weatherData.currentWeatherData)
       setNextDaysWeatherData(weatherData.nextDaysWeatherData)
-    } catch (error) {
-      console.log(error)
+      setErrorMessage('')
+      updateCity(city)
+    } catch (error: any) {
+      setErrorMessage(error.response.data.message)
+      const message =
+        error.response.data.code === 400001
+          ? ERROR_MESSAGES.INVALID_LOCATION
+          : ERROR_MESSAGES.GENERIC_ERROR
+      setErrorMessage(message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -45,13 +57,13 @@ export default function App() {
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     updateCitiesList(currentWeatherData!.location, city)
-    updateCity(city)
+    // updateCity(city)
     fetchData(city)
   }
 
   const handleOnSelectCity = (selectedCity: string): void => {
     updateCitiesList(city, selectedCity)
-    updateCity(selectedCity)
+    // updateCity(selectedCity)
     setCity(capitalizeWords(selectedCity))
     fetchData(capitalizeWords(selectedCity))
   }
@@ -87,12 +99,22 @@ export default function App() {
     )
   }
 
+  console.log(currentWeatherData)
+
   return (
     <main
       className={`main ${
         currentWeatherData?.weatherStatus.description ? currentMainClassByStatus : ''
       } `}
     >
+      {isLoading ? (
+        <div className='loader-container'>
+          <div className='loader'>
+            <p className='loading'>Loading</p>
+          </div>
+        </div>
+      ) : null}
+
       <div className='main-infos-container'>
         <div className='design-setting-container'>
           <a className='design' target='_blank' href='https://dribbble.com/thearthurk'>
@@ -111,6 +133,7 @@ export default function App() {
           </button>
         </div>
         {renderMainInfos()}
+        {errorMessage.length ? <div className='error-container'>{errorMessage}</div> : null}
       </div>
       <aside className='sidebar'>
         <form className='form' onSubmit={handleOnSubmit}>
