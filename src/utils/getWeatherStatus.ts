@@ -23,7 +23,7 @@ export const getWeatherStatus = (weatherCode: number): WeatherStatus => {
     1001: { description: 'Cloudy', icon: '/icons/cloudy.svg' },
     2000: { description: 'Fog', icon: '/icons/fog.svg' },
     2100: { description: 'Light Fog', icon: '/icons/fog_light.svg' },
-    4000: { description: 'Drizzle', icon: '/icons/drizzle.svg' },
+    4000: { description: 'Drizzle', icon: '/icons/freezing_drizzle.svg' },
     4001: { description: 'Rain', icon: '/icons/rain.svg' },
     4200: { description: 'Light Rain', icon: '/icons/rain_light.svg' },
     4201: { description: 'Heavy Rain', icon: '/icons/rain_heavy.svg' },
